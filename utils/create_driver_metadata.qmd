@@ -1,0 +1,53 @@
+---
+title: "create_driver_metadata"
+format: html
+editor: source
+---
+
+```{python}
+import fastf1.plotting
+
+driver_colors = fastf1.plotting.DRIVER_COLORS
+driver_translate =fastf1.plotting.DRIVER_TRANSLATE
+
+```
+
+
+```{r}
+library(tidyverse)
+library(reticulate)
+library(f1dataR)
+
+driver_colors <- unlist(py$driver_colors)
+driver_translate <- unlist(py$driver_translate)
+
+driver_colors_df <- tibble(driver_name = names(driver_colors), driver_color = driver_colors)
+driver_translate_df <- tibble(code = names(driver_translate), driver_name = driver_translate) |> 
+  left_join(driver_colors_df, by = "driver_name")
+
+
+
+drivers <- f1dataR::load_drivers()
+standings <- f1dataR::load_standings()
+
+f1dataR::constructor_data
+
+driver_metadata <- drivers |> 
+  left_join(standings |> select(driver_id, constructor_id), by = "driver_id") |> 
+  left_join(driver_translate_df, by = "code") |> 
+  mutate(constructor_color = case_when(
+    constructor_id == "williams" ~ "#005aff", 
+    constructor_id == "aston_martin" ~ "#00413b",
+    constructor_id == "ferrari" ~ "#dc0000",
+    constructor_id == "sauber" ~ "#00e701",
+    constructor_id == "alpine" ~ "#fe86bc",
+    constructor_id == "mercedes" ~ "#00d2be",
+    constructor_id == "haas" ~ "#cacaca",
+    constructor_id == "mclaren" ~ "#ff8700",
+    constructor_id == "red_bull" ~ "#1b2b5a",
+    constructor_id == "rb" ~ "#356cac"
+  ))
+
+write_csv(driver_metadata, "C:/code/3wide/utils/driver_metadata.csv")
+```
+

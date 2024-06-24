@@ -1,0 +1,22 @@
+driver_id,given_name,family_name,nationality,date_of_birth,code,permanent_number,constructor_id,driver_name,driver_color,constructor_color
+albon,Alexander,Albon,Thai,1996-03-23,ALB,23,williams,alexander albon,#005aff,#005aff
+alonso,Fernando,Alonso,Spanish,1981-07-29,ALO,14,aston_martin,fernando alonso,#006f62,#00413b
+bearman,Oliver,Bearman,British,2005-05-08,BEA,38,ferrari,oliver bearman,#c40000,#dc0000
+bottas,Valtteri,Bottas,Finnish,1989-08-28,BOT,77,sauber,valtteri bottas,#00e701,#00e701
+gasly,Pierre,Gasly,French,1996-02-07,GAS,10,alpine,pierre gasly,#fe86bc,#fe86bc
+hamilton,Lewis,Hamilton,British,1985-01-07,HAM,44,mercedes,lewis hamilton,#00d2be,#00d2be
+hulkenberg,Nico,Hülkenberg,German,1987-08-19,HUL,27,haas,nico hulkenberg,#cacaca,#cacaca
+leclerc,Charles,Leclerc,Monegasque,1997-10-16,LEC,16,ferrari,charles leclerc,#dc0000,#dc0000
+kevin_magnussen,Kevin,Magnussen,Danish,1992-10-05,MAG,20,haas,kevin magnussen,#ffffff,#cacaca
+norris,Lando,Norris,British,1999-11-13,NOR,4,mclaren,lando norris,#eeb370,#ff8700
+ocon,Esteban,Ocon,French,1996-09-17,OCO,31,alpine,esteban ocon,#ff117c,#fe86bc
+perez,Sergio,Pérez,Mexican,1990-01-26,PER,11,red_bull,sergio perez,#ffec7b,#1b2b5a
+piastri,Oscar,Piastri,Australian,2001-04-06,PIA,81,mclaren,oscar piastri,#ff8700,#ff8700
+ricciardo,Daniel,Ricciardo,Australian,1989-07-01,RIC,3,rb,daniel ricciardo,#2b4562,#356cac
+russell,George,Russell,British,1998-02-15,RUS,63,mercedes,george russell,#24ffff,#00d2be
+sainz,Carlos,Sainz,Spanish,1994-09-01,SAI,55,ferrari,carlos sainz,#ff8181,#dc0000
+sargeant,Logan,Sargeant,American,2000-12-31,SAR,2,williams,logan sargeant,#012564,#005aff
+stroll,Lance,Stroll,Canadian,1998-10-29,STR,18,aston_martin,lance stroll,#00413b,#00413b
+tsunoda,Yuki,Tsunoda,Japanese,2000-05-11,TSU,22,rb,yuki tsunoda,#356cac,#356cac
+max_verstappen,Max,Verstappen,Dutch,1997-09-30,VER,33,red_bull,max verstappen,#fcd700,#1b2b5a
+zhou,Guanyu,Zhou,Chinese,1999-05-30,ZHO,24,sauber,zhou guanyu,#008d01,#00e701

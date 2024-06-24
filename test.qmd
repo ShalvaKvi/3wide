@@ -1,0 +1,126 @@
+---
+title: "last_season_point_comparison"
+format: html
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+
+```{r}
+library(tidyverse)
+library(ggsankey)
+library(f1dataR)
+
+ROUND <- 10
+
+standings_raw <- bind_rows(
+  f1dataR::load_standings(season = 2024, round = ROUND) |> 
+    mutate(season = 2024), 
+  f1dataR::load_standings(season = 2023, round = ROUND) |> 
+    mutate(season = 2023),
+  f1dataR::load_standings(season = 2023, round = ROUND) |> 
+    mutate(season = 2023.45, points = "40"),
+  f1dataR::load_standings(season = 2024, round = ROUND) |> 
+    mutate(season = 2023.7, points = "40")
+)
+
+
+standings <- standings_raw |> 
+  filter(!driver_id %in% c("bearman", "de_vries")) |> 
+  expand(driver_id, season) |> 
+  left_join(standings_raw, by = c("driver_id", "season")) |> 
+  mutate(position = as.numeric(position),
+         points = as.numeric(points),
+         points = replace_na(points, 0),
+         points = points + 10) |> 
+  mutate(points = ifelse(season %in% c(2023.4, 2023.7), points + log(1/position), points))
+
+```
+
+```{r}
+
+# driver colors
+driver_metadata <- read_csv("./utils/driver_metadata.csv")
+driver_colors <- driver_metadata |> 
+  pull(constructor_color, driver_id)
+
+standings |> 
+  filter(!driver_id == "ricciardo") |> 
+  arrange(season, position) |> 
+  ggplot() +
+  aes(x = season, node = driver_id, fill = driver_id, value = points) +
+  geom_sankey_bump(type = "sankey", smooth = 6, alpha = 0.9) +
+  scale_fill_manual(values = driver_colors)
+
+
+```
+
+
+data wrangling
+```{r}
+library(tidyverse)
+library(ggsankey)
+library(f1dataR)
+library(ggalluvial)
+ROUND <- 10
+
+driver_metadata <- read_csv("./utils/driver_metadata.csv")
+driver_colors <- driver_metadata |> 
+  pull(constructor_color, driver_id)
+
+standings_raw <- bind_rows(
+  f1dataR::load_standings(season = 2024, round = ROUND) |> 
+    mutate(season = 2024), 
+  f1dataR::load_standings(season = 2023, round = ROUND) |> 
+    mutate(season = 2023)
+)
+
+standings <- standings_raw |> 
+  filter(!driver_id %in% c("bearman", "de_vries")) |> 
+  expand(driver_id, season) |> 
+  left_join(standings_raw, by = c("driver_id", "season")) |> 
+  left_join(driver_metadata |> select(driver_id, family_name), by = "driver_id") |> 
+  mutate(position = as.numeric(position),
+         points = as.numeric(points),
+         points = replace_na(points, 0),
+         points_for_plot = points + 60 - position) |> 
+  group_by(season) |> 
+  arrange(-position) |> 
+  mutate(text_y_pos = cumsum(points_for_plot) - (points_for_plot/2)) |> 
+  group_by(driver_id) |> 
+  arrange(season) |> 
+  mutate(
+    point_lag = points - lag(points),
+    text_label =case_when(
+    season == 2023 ~ paste0(family_name, ": ", points),
+    season == 2024 & point_lag > 0 ~ paste0(family_name, ": ", points, " (+", abs(point_lag), ")"),
+    season == 2024 & point_lag < 0 ~ paste0(family_name, ": ", points, " (-", abs(point_lag), ")"),
+    season == 2024 & point_lag == 0 ~ paste0(family_name, ": ", points),
+  ))
+          
+
+```
+
+plot
+```{r}
+standings |>
+  ggplot(aes(x = season, y = points_for_plot, alluvium = driver_id, group = season)) +
+  geom_alluvium(aes(fill = driver_id),color = "grey10", decreasing = FALSE, width = 0.5, alpha = 0.8) +
+  geom_text(data = standings |>  filter(season==2023), 
+            aes(label = text_label, y = text_y_pos), hjust = 0, nudge_x = -0.2, color = "grey10", size = 5, family = "calibri") +
+  geom_text(data = standings |>  filter(season==2024), 
+            aes(label = text_label, y = text_y_pos), hjust = 1, nudge_x = 0.2, color = "grey10", size = 5, family = "calibri") +
+  scale_x_continuous(expand = c(0.2, 0.2), 
+                     breaks = c(2023, 2024), 
+                     labels = c("Season 2023, Round 10", "Season 2024, Round 10")) +
+  scale_fill_manual(values = driver_colors) +
+  scale_color_manual(values = driver_colors) +
+  
+  theme(legend.position = "none")
+
+
+```
+
