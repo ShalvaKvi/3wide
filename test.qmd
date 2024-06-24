@@ -113,13 +113,24 @@ standings |>
             aes(label = text_label, y = text_y_pos), hjust = 0, nudge_x = -0.2, color = "grey10", size = 5, family = "calibri") +
   geom_text(data = standings |>  filter(season==2024), 
             aes(label = text_label, y = text_y_pos), hjust = 1, nudge_x = 0.2, color = "grey10", size = 5, family = "calibri") +
-  scale_x_continuous(expand = c(0.2, 0.2), 
-                     breaks = c(2023, 2024), 
-                     labels = c("Season 2023, Round 10", "Season 2024, Round 10")) +
+  # scale_x_continuous(expand = c(0.2, 0.2), 
+  #                    breaks = c(2023, 2024), 
+  #                    labels = c(, "Season 2024, Round 10")) +
+  scale_x_discrete() +
   scale_fill_manual(values = driver_colors) +
   scale_color_manual(values = driver_colors) +
+  annotate(
+    geom = "text",
+    x = c(2022.65,2024.35), 
+           y=1000, 
+           angle = 90, 
+           label = c("2023 Season","2024 Season"), 
+           size = 8, 
+           family = "calibri") +
+  labs(title= "Driver championship standings comparison 2023 vs. 2024", subtitle = "asdasdasdas") +
+  theme_void() +
+  theme(legend.position = "none", plot.margin = unit(c(1,1,1,1), "cm"))
   
-  theme(legend.position = "none")
 
 
 ```
