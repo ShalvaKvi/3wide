@@ -1,6 +1,16 @@
 library(tidyverse)
 library(f1dataR)
 library(ggalluvial)
+library(showtext)
+
+font_add_google(name = "Tomorrow", family = "Tomorrow")
+font_add_google(name = "Roboto", family = "Roboto")
+font_add_google(name = "Roboto Mono", family = "Roboto Mono")
+font_add_google(name = "Ubuntu", family = "Ubuntu")
+font_add_google(name = "Ubuntu Mono", family = "Ubuntu Mono")
+
+showtext_auto()
+
 
 ROUND <- 10
 
@@ -37,11 +47,9 @@ standings <- standings_raw |>
     text_label = case_when(
       season == 2023 ~ paste0(family_name, ": ", points),
       season == 2024 &
-        point_lag > 0 ~ paste0(family_name, ": ", points, " (+", abs(point_lag), ")"),
+        point_lag >= 0 ~ paste0(family_name, ": ", points, " (+", abs(point_lag), ")"),
       season == 2024 &
         point_lag < 0 ~ paste0(family_name, ": ", points, " (-", abs(point_lag), ")"),
-      season == 2024 &
-        point_lag == 0 ~ paste0(family_name, ": ", points),
     )
   )
 
@@ -57,8 +65,9 @@ main_plt <- standings |>
     aes(fill = driver_id),
     color = "grey10",
     decreasing = FALSE,
-    width = 0.5,
-    alpha = 0.8
+    width = 0.6,
+    alpha = 0.75,
+    size = 0.5
   ) +
   geom_text(
     data = standings |>  filter(season == 2023),
@@ -66,8 +75,8 @@ main_plt <- standings |>
     hjust = 0,
     nudge_x = -0.2,
     color = "grey10",
-    size = 5,
-    family = "calibri"
+    size = 4,
+    family = "Roboto"
   ) +
   geom_text(
     data = standings |>  filter(season == 2024),
@@ -75,8 +84,8 @@ main_plt <- standings |>
     hjust = 1,
     nudge_x = 0.2,
     color = "grey10",
-    size = 5,
-    family = "calibri"
+    size = 4,
+    family = "Roboto"
   ) +
   scale_x_discrete() +
   scale_fill_manual(values = driver_colors)
@@ -84,13 +93,16 @@ main_plt <- standings |>
 main_plt +
   annotate(
     geom = "text",
-    x = c(2022.65, 2024.35),
+    x = c(2022.6, 2024.4),
     y = 1000,
     angle = 90,
     label = c("2023 Season", "2024 Season"),
-    size = 8,
-    family = "calibri"
+    size = 10,
+    family = "Roboto",color = "grey40"
   ) +
-  labs(title = "Driver championship standings after 10 rounds 2023 vs. 2024", subtitle = "asdasdasdas") +
-  theme_void() +
-  theme(legend.position = "none", plot.margin = unit(c(1, 1, 1, 1), "cm"))
+  labs(title = "How does the Driver championship standings look after 10 rounds compared to last season?", 
+       subtitle = "While Verstappen still dominates at the top of the table") +
+  theme_void(base_family = "Roboto", base_size = 18) +
+  theme(plot.background = element_rect(fill = "#f3f5e4"),
+        legend.position = "none", plot.margin = unit(c(1, 1, 1, 1), "cm"))
+
