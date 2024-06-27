@@ -20,8 +20,8 @@ showtext_auto()
 
 ROUND <- 10
 
-dri
-ver_metadata <- read_csv("./utils/driver_metadata.csv")
+
+driver_metadata <- read_csv("./utils/driver_metadata.csv")
 driver_colors <- driver_metadata |>
   pull(constructor_color, driver_id)
 
@@ -62,9 +62,9 @@ standings <- standings_raw |>
   ungroup()
 
 redbull_clr = driver_metadata$constructor_color[driver_metadata$driver_id ==
-                                              "max_verstappen"]
+                                                  "max_verstappen"]
 mclaren_clr = driver_metadata$constructor_color[driver_metadata$driver_id ==
-                                                "norris"]
+                                                  "norris"]
 alonso_clr = driver_metadata$constructor_color[driver_metadata$driver_id ==
                                                  "alonso"]
 leclerc_clr = driver_metadata$constructor_color[driver_metadata$driver_id ==
@@ -73,18 +73,23 @@ leclerc_clr = driver_metadata$constructor_color[driver_metadata$driver_id ==
 russell_clr = driver_metadata$constructor_color[driver_metadata$driver_id ==
                                                   "russell"]
 
+
+
 title <- glue(
-  "<span style = 'font-size:24pt;'>**Comparing The F1 Driver Standings After 10 Rounds to Last Season**</span><br>
-  <span style = 'font-size:12pt;'>While <span style = 'color:{redbull_clr};'>**Max Verstappen**</span> still doimnates at the top of the 
+  "<span style = 'font-size:24pt;'>**Comparing the F1 Driver Standings After 10 Rounds to Last Season**<br><br>
+  <span style = 'font-size:11pt;'>While <span style = 'color:{redbull_clr};'>**Max Verstappen**</span> still doimnates at the top of the
   table as he did at this stage of the previous season, there are some noteable changes in the pecking order.<br><br>
-  Among the noteable gainers are <span style = 'color:{mclaren_clr};'>**Lando Norris**</span> up at 2nd from 9th with a massive **+108** point gain, 
-  his teammate <span style = 'color:{mclaren_clr};'>**Oscar Piastri**</span> at 6th with a **+70** gain, and <span style = 'color:{leclerc_clr};'>**Charles Leclerc**</span> at 3rd with a **+74** gain.<br><br>
-  Among the noteable losers are <span style = 'color:{alonso_clr};'>**Fernando Alonso**</span> with a huge **-96** point drop-off down to 9th from 3rd, 
-  <span style = 'color:{russell_clr};'>**Lewis Hamilton**</span> with **-51** point loss, 
-  and <span style = 'color:{redbull_clr};'>**Sergio Pérez**</span> with a **-45** point loss following a sequence of poor race finishes.
-  
+  Among the noteable gainers are <span style = 'color:{mclaren_clr};'>**Lando Norris**</span> up at 2nd with a massive **+108** point gain,
+  his teammate <span style = 'color:{mclaren_clr};'>**Oscar Piastri**</span> with a **+70** point gain, and <span style = 'color:{leclerc_clr};'>**Charles Leclerc**</span> with a **+74** point gain.<br><br>
+  Among the noteable losers are <span style = 'color:{alonso_clr};'>**Fernando Alonso**</span> with a huge **-96** point loss,
+  <span style = 'color:{russell_clr};'>**Lewis Hamilton**</span> with **-51** point loss,
+  and <span style = 'color:{redbull_clr};'>**Sergio Pérez**</span> with a **-45** point loss.
+
   </span>"
 )
+
+subtitle <-  "<span style = 'font-size:14pt;'>**F1 Driver Standings After 10 Rounds:**"
+caption <- "<span style = 'font-size:11pt;'>Analysis and visualization by **3wide**"
 
 standings |>
   ggplot() +
@@ -96,7 +101,7 @@ standings |>
   ) +
   geom_alluvium(
     aes(fill = driver_id),
-    color = "grey10",
+    color = "black",
     decreasing = FALSE,
     width = 0.6,
     alpha = 0.9,
@@ -107,8 +112,8 @@ standings |>
     aes(label = text_label, y = text_y_pos),
     hjust = 0,
     nudge_x = -0.25,
-    color = "grey10",
-    size = 4,
+    color = "black",
+    size = 3,
     family = "Fira Mono"
   ) +
   geom_text(
@@ -116,8 +121,8 @@ standings |>
     aes(label = text_label, y = text_y_pos, color = driver_id),
     hjust = 1,
     nudge_x = 0.25,
-    color = "grey10",
-    size = 4,
+    color = "black",
+    size = 3,
     family = "Fira Mono"
   ) +
   scale_x_discrete() +
@@ -128,21 +133,35 @@ standings |>
     y = 1000,
     angle = 90,
     label = c("2023 Season", "2024 Season"),
-    size = 8,
+    size = 6,
+    fontface = "bold",
     family = "Fira",
-    color = "grey10"
+    color = "grey20"
   ) +
   theme_void() +
-  labs(title = title) +
+  labs(title = title, subtitle = subtitle, caption = caption) +
   theme(
     plot.background = element_rect(fill = "grey95"),
     legend.position = "none",
     plot.title = element_textbox_simple(
-      size = 14,
+      color = "grey20",
+      family = "Fira",
       lineheight = 1,
-      padding = margin(10, 120, 0, 120)
-    )
-    #plot.margin = unit(c(0,0,0,-160), "pt")
+      padding = margin(0, 100, 0, 100)
+    ),
+    plot.subtitle = element_textbox_simple(
+      color = "grey20",
+      family = "Fira",
+      lineheight = 1,
+      padding = margin(0, 140, -10, 100)
+    ),
+    plot.caption = element_textbox_simple(
+      color = "grey20",
+      family = "Tomorrow",
+      lineheight = 1,
+      padding = margin(0, 0, 0, 100)
+    ),
+    plot.margin = unit(c(10,-60,10,-60), "pt")
   )
 
 
