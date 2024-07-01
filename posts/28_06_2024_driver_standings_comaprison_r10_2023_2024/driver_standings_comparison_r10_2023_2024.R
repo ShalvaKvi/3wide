@@ -218,4 +218,4 @@ main_plt <- standings |>
     plot.margin = unit(c(5, -60, 5, -60), "pt")
   )
 
-ggsave(filename = "./posts/driver_standings_comaprison_r10_2023_2024/driver_standings_comaprison_r10_2023_2024.png", plot = main_plt, device = "png", width = 900, height = 1400, units = "px", dpi = 100)
+ggsave(filename = "./posts/28_06_2024_driver_standings_comaprison_r10_2023_2024/driver_standings_comaprison_r10_2023_2024.png", plot = main_plt, device = "png", width = 900, height = 1400, units = "px", dpi = 100)

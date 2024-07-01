@@ -1,8 +1,13 @@
-# 3wide
+# Welcome to the 3wide project
  
-The main Github Repo for the 3wide project.
+3wide is a motorsport data analysis and visualization project. 
+Everything is open source.
 
-Twitter/X : https://x.com/3wide_analytics
-Email: 3wide.analytics@gmail.com
+You can check out the posts here -
+Twitter/X: https://x.com/3wide_analytics
+Reddit: https://www.reddit.com/user/Kitchen_Ad1973/submitted/
+
+
+Contact email: 3wide.analytics@gmail.com
 
 UNDER CONSTRUCTION
